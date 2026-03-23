@@ -1,0 +1,136 @@
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Check } from "lucide-react";
+import { useCart, Product } from "../context/cart-context";
+import { toast } from "sonner";
+
+const products: Product[] = [
+  {
+    id: "trabbrella-blue",
+    name: "Trabbrella - Ocean Blue",
+    price: 89,
+    color: "Blue",
+    image:
+      "https://images.unsplash.com/photo-1692459163403-999bf6aee355?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHVtYnJlbGxhJTIwbWluaW1hbHxlbnwxfHx8fDE3NzA0NjMxMjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: "trabbrella-coral",
+    name: "Trabbrella - Coral Reef",
+    price: 89,
+    color: "Coral",
+    image:
+      "https://images.unsplash.com/photo-1627803589917-65023f4a0e70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBiZWFjaCUyMGFjY2Vzc29yaWVzfGVufDF8fHx8MTc3MDQ2MzEyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: "trabbrella-sand",
+    name: "Trabbrella - Sandy Beige",
+    price: 89,
+    color: "Beige",
+    image:
+      "https://images.unsplash.com/photo-1595330495302-e257debfa664?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwYmVhY2glMjBzY2VuZXxlbnwxfHx8fDE3NzA0NjMxMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+];
+
+export function ProductSelection() {
+  const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem(selectedProduct);
+    toast.success("Added to cart!", {
+      description: `${selectedProduct.name} has been added to your cart.`,
+    });
+  };
+
+  return (
+    <section className="py-24 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl mb-4">Choose Your Color</h2>
+          <p className="text-lg text-gray-600">
+            Available in three elegant colorways
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+            <img
+              src={selectedProduct.image}
+              alt={selectedProduct.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-3xl mb-2">{selectedProduct.name}</h3>
+              <p className="text-4xl">${selectedProduct.price}</p>
+            </div>
+
+            <div>
+              <h4 className="text-lg mb-4">Color</h4>
+              <div className="flex gap-3">
+                {products.map((product) => (
+                  <button
+                    key={product.id}
+                    onClick={() => setSelectedProduct(product)}
+                    className={`relative px-6 py-3 border-2 rounded-lg transition-all ${
+                      selectedProduct.id === product.id
+                        ? "border-black bg-black text-white"
+                        : "border-gray-300 hover:border-gray-400"
+                    }`}
+                  >
+                    {product.color}
+                    {selectedProduct.id === product.id && (
+                      <Check className="absolute top-1 right-1 size-4" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-lg">Features:</h4>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-start">
+                  <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Diameter: 2.2m optimal coverage</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Weight: 1.8kg ultra-lightweight</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>UPF 50+ UV protection</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Water-resistant fabric</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Includes pyramid base and travel bag</span>
+                </li>
+              </ul>
+            </div>
+
+            <Button
+              size="lg"
+              onClick={handleAddToCart}
+              className="w-full bg-black text-white hover:bg-gray-800 text-lg py-6"
+            >
+              Add to Cart - ${selectedProduct.price}
+            </Button>
+
+            <div className="text-sm text-gray-500 space-y-1">
+              <p>✓ Free shipping</p>
+              <p>✓ 30-day money-back guarantee</p>
+              <p>✓ 2-year manufacturer warranty</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
