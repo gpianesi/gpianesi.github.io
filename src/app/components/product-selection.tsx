@@ -10,24 +10,21 @@ const products: Product[] = [
     name: "Trabbrella - Ocean Blue",
     price: 89,
     color: "Blue",
-    image:
-      "https://images.unsplash.com/photo-1692459163403-999bf6aee355?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHVtYnJlbGxhJTIwbWluaW1hbHxlbnwxfHx8fDE3NzA0NjMxMjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/imgs/blue.jpg",
   },
   {
     id: "trabbrella-coral",
     name: "Trabbrella - Coral Reef",
     price: 89,
     color: "Coral",
-    image:
-      "https://images.unsplash.com/photo-1627803589917-65023f4a0e70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBiZWFjaCUyMGFjY2Vzc29yaWVzfGVufDF8fHx8MTc3MDQ2MzEyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/imgs/coral.jpg",
   },
   {
     id: "trabbrella-sand",
     name: "Trabbrella - Sandy Beige",
     price: 89,
     color: "Beige",
-    image:
-      "https://images.unsplash.com/photo-1595330495302-e257debfa664?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwYmVhY2glMjBzY2VuZXxlbnwxfHx8fDE3NzA0NjMxMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "/imgs/beige.jpg",
   },
 ];
 
