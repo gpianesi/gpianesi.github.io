@@ -8,21 +8,21 @@ const products: Product[] = [
   {
     id: "trabbrella-blue",
     name: "Trabbrella - Ocean Blue",
-    price: 89,
+    price: 49,
     color: "Blue",
     image: "/imgs/blue.jpg",
   },
   {
     id: "trabbrella-coral",
     name: "Trabbrella - Coral Reef",
-    price: 89,
+    price: 49,
     color: "Coral",
     image: "/imgs/coral.jpg",
   },
   {
     id: "trabbrella-sand",
     name: "Trabbrella - Sandy Beige",
-    price: 89,
+    price: 49,
     color: "Beige",
     image: "/imgs/beige.jpg",
   },
@@ -45,7 +45,7 @@ export function ProductSelection() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl mb-4">Choose Your Color</h2>
           <p className="text-lg text-gray-600">
-            Available in three elegant colorways
+            Available in three elegant colors
           </p>
         </div>
 
@@ -91,11 +91,11 @@ export function ProductSelection() {
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-start">
                   <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Diameter: 2.2m optimal coverage</span>
+                  <span>Diameter: 1.8m optimal coverage</span>
                 </li>
                 <li className="flex items-start">
                   <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Weight: 1.8kg ultra-lightweight</span>
+                  <span>Weight: 1.5kg ultra-lightweight</span>
                 </li>
                 <li className="flex items-start">
                   <Check className="size-5 mr-2 mt-0.5 flex-shrink-0" />

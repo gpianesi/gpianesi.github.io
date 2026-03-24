@@ -5,7 +5,7 @@ export function ProductShowcase() {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
           <div className="order-2 md:order-1">
             <h3 className="text-3xl md:text-4xl mb-6">
-              Familiar. Yet Revolutionary.
+              Familiar Design.
             </h3>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
              Opens just like a standard umbrella, with telescopic poles for quick
@@ -42,7 +42,7 @@ export function ProductShowcase() {
               Our patented pyramid base system uses the natural weight of 
               objects like sand, pebbles, or even water, to provide stability.
               The anchored sheet forms a pyramid structure that won't
-              budge, even in coastal winds.
+              budge, even in strong winds.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed">
               Safe and Easy to Setup. No sharp stakes to worry about.
