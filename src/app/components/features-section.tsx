@@ -11,19 +11,19 @@ const features = [
     icon: Umbrella,
     title: "Easy Open Design",
     description:
-      "Familiar umbrella-style opening mechanism, slightly larger size for optimal beach coverage and comfort.",
+      "Familiar umbrella-style opening mechanism, slightly larger size for better coverage and comfort.",
   },
   {
     icon: Anchor,
     title: "Pyramid Stability Base",
     description:
-      "Revolutionary sheet-based anchoring system forms a pyramid shape. Fill with sand for unmatched stability.",
+      "Revolutionary sheet-based anchoring system forms a pyramid shape. Fill with sand, or pebbles to give stability.",
   },
   {
     icon: Package,
-    title: "No Stakes Required",
+    title: "Easy Setup",
     description:
-      "Forget about sharp stakes or complicated installations. Simply anchor the sheet and fill with sand.",
+      "Forget about sharp stakes or complicated installations. Simply anchor the sheet and fill it.",
   },
 ];
 
@@ -33,7 +33,7 @@ export function FeaturesSection() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl mb-4">
-            Engineered for Beach Life
+            Developed for Beach Life
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Every detail designed to solve the problems of traditional beach

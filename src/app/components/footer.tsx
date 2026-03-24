@@ -6,7 +6,7 @@ export function Footer() {
           <div>
             <h3 className="text-xl mb-4">Trabbrella</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Reinventing beach shade for the modern traveler.
+              Reinventing beach shade for the adventurous traveler.
             </p>
           </div>
 
@@ -25,11 +25,6 @@ export function Footer() {
                   Specifications
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  How It Works
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -46,11 +41,6 @@ export function Footer() {
               <li>
                 <a href="#" className="text-gray-300 hover:text-white">
                   Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Blog
                 </a>
               </li>
             </ul>

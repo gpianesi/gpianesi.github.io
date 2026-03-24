@@ -8,12 +8,9 @@ export function ProductShowcase() {
               Familiar. Yet Revolutionary.
             </h3>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Open it like any umbrella you've used before. The slightly larger
-              canopy provides generous shade coverage while maintaining the
-              portability you need for your beach adventures.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              No learning curve. Just effortless sun protection that works.
+             Opens just like a standard umbrella, with telescopic poles for quick
+              setup. The slightly larger canopy provides generous shade while
+              maintaining the portability you need for your beach adventures.
             </p>
           </div>
           <div className="order-1 md:order-2">
@@ -42,12 +39,13 @@ export function ProductShowcase() {
               The Pyramid Advantage
             </h3>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Our patented pyramid base system uses the natural weight of sand
-              to create rock-solid stability. The anchored sheet forms a
-              pyramid structure that won't budge, even in coastal winds.
+              Our patented pyramid base system uses the natural weight of 
+              objects like sand, pebbles, or even water, to provide stability.
+              The anchored sheet forms a pyramid structure that won't
+              budge, even in coastal winds.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed">
-              Safe, stable, and sandable. No sharp stakes to worry about.
+              Safe and Easy to Setup. No sharp stakes to worry about.
             </p>
           </div>
         </div>

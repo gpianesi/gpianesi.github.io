@@ -21,8 +21,7 @@ export function CTASection({ onAddToCart }: CTASectionProps) {
           Ready to Transform Your Beach Experience?
         </h2>
         <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-          Join the revolution in portable beach shade. Limited quantities
-          available for our first production run.
+          Limited quantities available for our first production run.  
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -32,7 +31,7 @@ export function CTASection({ onAddToCart }: CTASectionProps) {
             onClick={handlePreOrder}
           >
             <ShoppingCart className="mr-2 size-5" />
-            Pre-Order Now - $89
+            Pre-Order Now - $49
           </Button>
           <Button
             size="lg"
