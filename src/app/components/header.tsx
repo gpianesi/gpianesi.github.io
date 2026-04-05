@@ -28,7 +28,7 @@ export function Header({ onCheckout }: HeaderProps) {
             Product
           </a>
           <a
-            href="#order"
+            href="#shop"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
             Order
