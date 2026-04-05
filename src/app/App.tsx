@@ -23,7 +23,7 @@ export default function App() {
   };
 
   const handleCTAClick = () => {
-    document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleOrderComplete = (data: OrderData) => {
