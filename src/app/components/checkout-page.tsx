@@ -31,11 +31,72 @@ export interface OrderData {
   orderDate: string;
 }
 
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  cardNumber: string;
+  cardExpiry: string;
+  cardCvc: string;
+};
+
+type FormErrors = Partial<Record<keyof FormData, string>>;
+
+function validate(formData: FormData): FormErrors {
+  const errors: FormErrors = {};
+
+  if (!formData.firstName.trim())
+    errors.firstName = "First name is required";
+
+  if (!formData.lastName.trim())
+    errors.lastName = "Last name is required";
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    errors.email = "Enter a valid email address";
+
+  if (formData.phone.replace(/\D/g, "").length < 7)
+    errors.phone = "Enter a valid phone number";
+
+  if (!formData.address.trim())
+    errors.address = "Address is required";
+
+  if (!formData.city.trim())
+    errors.city = "City is required";
+
+  if (!formData.zipCode.trim())
+    errors.zipCode = "ZIP code is required";
+
+  if (!formData.country.trim())
+    errors.country = "Country is required";
+
+  if (!/^\d{16}$/.test(formData.cardNumber.replace(/\s/g, "")))
+    errors.cardNumber = "Enter a valid 16-digit card number";
+
+  if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.cardExpiry))
+    errors.cardExpiry = "Enter expiry as MM/YY";
+
+  if (!/^\d{3,4}$/.test(formData.cardCvc))
+    errors.cardCvc = "Enter a valid CVC (3–4 digits)";
+
+  return errors;
+}
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return <p className="text-sm text-red-600 mt-1">{message}</p>;
+}
+
 export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
   const { items, totalPrice, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -50,14 +111,47 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    let formatted = value;
+
+    if (name === "cardNumber") {
+      const digits = value.replace(/\D/g, "").slice(0, 16);
+      formatted = digits.replace(/(.{4})/g, "$1 ").trim();
+    }
+
+    if (name === "cardExpiry") {
+      const digits = value.replace(/\D/g, "").slice(0, 4);
+      formatted =
+        digits.length > 2
+          ? `${digits.slice(0, 2)}/${digits.slice(2)}`
+          : digits;
+    }
+
+    if (name === "cardCvc") {
+      formatted = value.replace(/\D/g, "").slice(0, 4);
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: formatted }));
+
+    // Clear the error for this field as the user types
+    if (formErrors[name as keyof FormData]) {
+      setFormErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors = validate(formData);
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      const firstErrorField = Object.keys(errors)[0];
+      document
+        .getElementById(firstErrorField)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
     setIsProcessing(true);
 
     // Simulate payment processing
@@ -89,7 +183,12 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-6">
       <div className="max-w-6xl mx-auto">
-        <Button variant="ghost" onClick={onBack} className="mb-8" disabled={isProcessing}>
+        <Button
+          variant="ghost"
+          onClick={onBack}
+          className="mb-8"
+          disabled={isProcessing}
+        >
           <ArrowLeft className="mr-2 size-4" />
           Back to Store
         </Button>
@@ -99,7 +198,7 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
           <div>
             <h1 className="text-3xl mb-8">Checkout</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} noValidate className="space-y-8">
               {/* Contact Information */}
               <Card>
                 <CardHeader>
@@ -112,20 +211,30 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                       <Input
                         id="firstName"
                         name="firstName"
-                        required
                         value={formData.firstName}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.firstName
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.firstName} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Last Name</Label>
                       <Input
                         id="lastName"
                         name="lastName"
-                        required
                         value={formData.lastName}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.lastName
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.lastName} />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -134,10 +243,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                       id="email"
                       name="email"
                       type="email"
-                      required
                       value={formData.email}
                       onChange={handleInputChange}
+                      className={
+                        formErrors.email
+                          ? "border-red-500 focus-visible:ring-red-500"
+                          : ""
+                      }
                     />
+                    <FieldError message={formErrors.email} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone</Label>
@@ -145,10 +259,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                       id="phone"
                       name="phone"
                       type="tel"
-                      required
                       value={formData.phone}
                       onChange={handleInputChange}
+                      className={
+                        formErrors.phone
+                          ? "border-red-500 focus-visible:ring-red-500"
+                          : ""
+                      }
                     />
+                    <FieldError message={formErrors.phone} />
                   </div>
                 </CardContent>
               </Card>
@@ -164,10 +283,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                     <Input
                       id="address"
                       name="address"
-                      required
                       value={formData.address}
                       onChange={handleInputChange}
+                      className={
+                        formErrors.address
+                          ? "border-red-500 focus-visible:ring-red-500"
+                          : ""
+                      }
                     />
+                    <FieldError message={formErrors.address} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -175,20 +299,30 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                       <Input
                         id="city"
                         name="city"
-                        required
                         value={formData.city}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.city
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.city} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="zipCode">ZIP Code</Label>
                       <Input
                         id="zipCode"
                         name="zipCode"
-                        required
                         value={formData.zipCode}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.zipCode
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.zipCode} />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -196,10 +330,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                     <Input
                       id="country"
                       name="country"
-                      required
                       value={formData.country}
                       onChange={handleInputChange}
+                      className={
+                        formErrors.country
+                          ? "border-red-500 focus-visible:ring-red-500"
+                          : ""
+                      }
                     />
+                    <FieldError message={formErrors.country} />
                   </div>
                 </CardContent>
               </Card>
@@ -219,10 +358,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                       id="cardNumber"
                       name="cardNumber"
                       placeholder="1234 5678 9012 3456"
-                      required
                       value={formData.cardNumber}
                       onChange={handleInputChange}
+                      className={
+                        formErrors.cardNumber
+                          ? "border-red-500 focus-visible:ring-red-500"
+                          : ""
+                      }
                     />
+                    <FieldError message={formErrors.cardNumber} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -231,10 +375,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                         id="cardExpiry"
                         name="cardExpiry"
                         placeholder="12/26"
-                        required
                         value={formData.cardExpiry}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.cardExpiry
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.cardExpiry} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="cardCvc">CVC</Label>
@@ -242,10 +391,15 @@ export function CheckoutPage({ onBack, onComplete }: CheckoutPageProps) {
                         id="cardCvc"
                         name="cardCvc"
                         placeholder="123"
-                        required
                         value={formData.cardCvc}
                         onChange={handleInputChange}
+                        className={
+                          formErrors.cardCvc
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : ""
+                        }
                       />
+                      <FieldError message={formErrors.cardCvc} />
                     </div>
                   </div>
                   <div className="flex items-center text-sm text-gray-600 mt-4">
