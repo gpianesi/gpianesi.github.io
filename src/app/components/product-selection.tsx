@@ -4,12 +4,13 @@ import { Check } from "lucide-react";
 import { useCart, Product } from "../context/cart-context";
 import { toast } from "sonner";
 
-const products: Product[] = [
+const products: (Product & { hex: string })[] = [
   {
     id: "trabbrella-blue",
     name: "Trabbrella - Ocean Blue",
     price: 49,
     color: "Blue",
+    hex: "#5B8DB8",
     image: "/imgs/blue.jpg",
   },
   {
@@ -17,6 +18,7 @@ const products: Product[] = [
     name: "Trabbrella - Coral Reef",
     price: 49,
     color: "Coral",
+    hex: "#E07660",
     image: "/imgs/coral.jpg",
   },
   {
@@ -24,6 +26,7 @@ const products: Product[] = [
     name: "Trabbrella - Sandy Beige",
     price: 49,
     color: "Beige",
+    hex: "#C8A97E",
     image: "/imgs/beige.jpg",
   },
 ];
@@ -52,9 +55,10 @@ export function ProductSelection() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
             <img
+              key={selectedProduct.id}
               src={selectedProduct.image}
               alt={selectedProduct.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover animate-fade-in"
             />
           </div>
 
@@ -71,15 +75,20 @@ export function ProductSelection() {
                   <button
                     key={product.id}
                     onClick={() => setSelectedProduct(product)}
-                    className={`relative px-6 py-3 border-2 rounded-lg transition-all ${
+                    aria-pressed={selectedProduct.id === product.id}
+                    className={`relative flex items-center gap-2 px-5 py-3 border-2 rounded-lg transition-all ${
                       selectedProduct.id === product.id
                         ? "border-black bg-black text-white"
                         : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
+                    <span
+                      className="w-4 h-4 rounded-full border border-gray-300 flex-shrink-0"
+                      style={{ backgroundColor: product.hex }}
+                    />
                     {product.color}
                     {selectedProduct.id === product.id && (
-                      <Check className="absolute top-1 right-1 size-4" />
+                      <Check className="size-4" />
                     )}
                   </button>
                 ))}
