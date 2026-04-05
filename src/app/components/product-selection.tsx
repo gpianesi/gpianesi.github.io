@@ -70,7 +70,7 @@ export function ProductSelection() {
 
             <div>
               <h4 className="text-lg mb-4">Color</h4>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {products.map((product) => (
                   <button
                     key={product.id}
